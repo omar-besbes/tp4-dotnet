@@ -9,11 +9,12 @@ public class Student
     [Key] private int _id;
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public int PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
     public string University { get; set; }
     public string Timestamp { get; set; }
+    public Course Course { get; set; }
 
-    public Student(string firstName, string lastName, int phoneNumber, string university, string timestamp)
+    public Student(string firstName, string lastName, string phoneNumber, string university, string timestamp, Course course)
     {
         _id = _nextId++;
         FirstName = firstName;
@@ -21,5 +22,6 @@ public class Student
         PhoneNumber = phoneNumber;
         University = university;
         Timestamp = timestamp;
+        Course = course;
     }
 }
