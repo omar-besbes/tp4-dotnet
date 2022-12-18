@@ -1,0 +1,18 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = "Available Courses";
+}
+
+<h2>Available Courses</h2>
+
+<ul class="hstack gap-3 col-md-5 mx-auto">
+    @foreach (var course in Enum.GetValues(typeof(Course)))
+    {
+        <li class="nav-link">
+            <a href="/Courses/@course">
+                @course
+            </a>
+        </li>
+    }
+</ul>
