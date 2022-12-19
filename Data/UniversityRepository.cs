@@ -3,34 +3,51 @@ using tp4_dotnet.Models;
 
 namespace tp4_dotnet.Data;
 
-public class UniversityRepository
+public interface IUniversityRepository
 {
-    private UniversityContext _context;
+    public IEnumerable<Student> GetStudents();
+    public IEnumerable<Student> GetStudentsByCourse(string course);
+    public Student GetStudentById(int id);
+    public void AddStudent(Student student);
+    public void DeleteStudent(int studentId);
+    public void UpdateStudent(Student student);
+    public void Save();
+    public void Dispose();
+}
 
-    public UniversityRepository(UniversityContext context)
+public class UniversityRepository : IUniversityRepository
+{
+    private UniversityContext? _context;
+
+    public UniversityRepository(UniversityContext? context)
     {
         this._context = context;
     }
 
     public IEnumerable<Student> GetStudents()
     {
-        return _context.Student.ToList();
+        return _context.Students.ToList();
+    }
+
+    public IEnumerable<Student> GetStudentsByCourse(string course)
+    {
+        return _context.Students.ToList().FindAll(student => student.Course == course);
     }
 
     public Student GetStudentById(int id)
     {
-        return _context.Student.Find(id);
+        return _context.Students.Find(id);
     }
 
     public void AddStudent(Student student)
     {
-        _context.Student.Add(student);
+        _context.Students.Add(student);
     }
 
     public void DeleteStudent(int studentId)
     {
-        var student = _context.Student.Find(studentId);
-        _context.Student.Remove(student);
+        var student = _context.Students.Find(studentId);
+        _context.Students.Remove(student);
     }
 
     public void UpdateStudent(Student student)

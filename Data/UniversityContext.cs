@@ -6,22 +6,23 @@ namespace tp4_dotnet.Data;
 
 public class UniversityContext : DbContext
 {
-    public DbSet<Student> Student { get; set; }
+    public DbSet<Student> Students { get; set; }
 
-    private static UniversityContext Context;
+    private static UniversityContext? _context;
 
     private UniversityContext(DbContextOptions o) : base(o)
     {
     }
 
-    public UniversityContext Instantiate_UniversityContext(IConfiguration _configuration)
+    public static UniversityContext? Instantiate_UniversityContext(IConfiguration configuration)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
+        if (_context == null)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<UniversityContext>();
+            optionsBuilder.UseSqlite(configuration.GetConnectionString("SQLite"));
+            _context = new UniversityContext(optionsBuilder.Options);
+        }
 
-        optionsBuilder.UseSqlite(_configuration.GetConnectionString("SQLite"));
-
-        if (Context == null) Context = new UniversityContext(optionsBuilder.Options);
-
-        return Context;
+        return _context;
     }
 }
